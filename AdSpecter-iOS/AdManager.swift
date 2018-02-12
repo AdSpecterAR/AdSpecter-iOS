@@ -35,9 +35,7 @@ class AdManager {
         self.impression.hasAdBeenShown = true
         self.impression.timeAdWasShown = self.dateFormatter.string(from: Date())
         sendImpressionData()
-//        return planeNode
     }
-    
     
     func constructImpressionPostData() -> [String : Any] {
         var parameters : [String : Any] = [
@@ -74,9 +72,11 @@ class AdManager {
                 if let responseData = response.result.value {
                     let json : JSON = JSON(responseData)
                     
+                    self.impression.hasAdBeenServed = true
+                    self.impression.timeAdWasServed = self.dateFormatter.string(from: Date())
                     self.impression.impressionId = json["impression"]["id"].intValue
                 } else {
-                    // error from creating impression
+                    // error handling from creating impression
                 }
         }
     }
@@ -115,13 +115,8 @@ class AdManager {
                     print("***************************")
                     print("async update")
                     
-                    // send telemetry to that ad has been served
-                    self.impression.hasAdBeenServed = true
-                    self.impression.timeAdWasServed = self.dateFormatter.string(from: Date())
-                    
                     self.createImpression()
-                    
-                    self.setupPlane(imageURL: imageURL)
+                    self.setPlane(imageURL: imageURL)
                 }
             } else {
                 print("***************************")
@@ -142,7 +137,7 @@ class AdManager {
         }
     }
     
-    func setupPlane(imageURL: String) {
+    func setPlane(imageURL: String) {
         let image = setImage(imageURL: imageURL)
         
         gridMaterial.diffuse.contents = image

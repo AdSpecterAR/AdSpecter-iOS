@@ -46,20 +46,16 @@ class DeveloperManager {
                 if let responseData = response.result.value {
                     let json : JSON = JSON(responseData)
                     
-                    print("***************************")
-                    print("json!!! \(json["app_session"]["id"])")
-                    
-                    
                     sessionId = json["app_session"]["id"].intValue
+                    
+                    print("***************************")
+                    print("sessionId \(sessionId)")
                     
                     // callback here
 //                    
 //                    let adManager = AdManager()
 //                    
 //                    adManager.initializeAdNode()
-                    
-                    print("***************************")
-                    print("sessionId!!! \(sessionId)")
                 }
         }
     }
