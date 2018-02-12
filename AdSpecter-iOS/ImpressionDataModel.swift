@@ -10,17 +10,29 @@ import Foundation
 
 
 class ImpressionDataModel {
-    var hasAdBeenShown : Bool
-    var hasAdBeenServed : Bool
-    var hasAdBeenShownFor30Seconds : Bool
-    var hasAdBeenClicked : Bool
-    var sessionId : String
+    var impressionId: Int?
     
-    init(currentSessionID : String) {
+    var hasAdBeenShown: Bool
+    var hasAdBeenServed: Bool
+    var hasAdBeenClicked: Bool
+    
+    var developerAppID: String
+    var campaignID: String
+    
+    var timeAdWasServed: String
+    var timeAdWasShown: String?
+    var timeAdWasClicked: String?
+    
+    let dateFormatter = ISO8601DateFormatter()
+    
+    init() {
         hasAdBeenShown = false
         hasAdBeenServed = false
-        hasAdBeenShownFor30Seconds = false
         hasAdBeenClicked = false
-        sessionId = currentSessionID
+        
+        developerAppID = "1"        // change
+        campaignID = "1"            // change
+        
+        timeAdWasServed = dateFormatter.string(from: Date())
     }
 }
