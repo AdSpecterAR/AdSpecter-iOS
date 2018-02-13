@@ -106,6 +106,7 @@ class AdManager {
             if let responseData = response.result.value {
                 let json : JSON = JSON(responseData)
                 
+                // this will change when we update the ad JSON API
                 let imageURL : String = json["image_url"].stringValue
                 
                 print("***************************")
