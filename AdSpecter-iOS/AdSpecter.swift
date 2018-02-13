@@ -11,8 +11,7 @@ import SceneKit
 import ARKit
 
 
-//let adSpecterBaseURL : String = "http://10.0.0.158:3000" // home wifi
-    let adSpecterBaseURL : String = "http://192.168.0.114:3000"
+let adSpecterBaseURL : String = "https://hidden-everglades-21450.herokuapp.com"
 
 public class AdSpecter {
     static let adManager: AdManager = AdManager()
