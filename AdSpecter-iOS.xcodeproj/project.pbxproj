@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2E86CBFBF5C56B17C5634B46 /* Pods_AdSpecter_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FBE809C0FB11C2F235DC8 /* Pods_AdSpecter_iOS.framework */; };
+		5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080D5B62033F9C000604ACB /* AdManager+Networking.swift */; };
+		50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997D2032B40A00879031 /* ASRAdNode.swift */; };
+		50B499802032C68D00879031 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997F2032C68D00879031 /* JSONCodable.swift */; };
+		50B499832032CBD400879031 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B499822032CBD400879031 /* Logging.swift */; };
+		50DDCC33203418B20010C31A /* WeakObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DDCC32203418B20010C31A /* WeakObject.swift */; };
 		F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C31702013FD2000C95C32 /* AdSpecter.swift */; };
 		F21F59A52014021100070053 /* AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F59A42014021100070053 /* AdManager.swift */; };
 		F21F59A72014023300070053 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F59A62014023300070053 /* APIClient.swift */; };
@@ -20,6 +25,11 @@
 
 /* Begin PBXFileReference section */
 		3D8FBE809C0FB11C2F235DC8 /* Pods_AdSpecter_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdSpecter_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5080D5B62033F9C000604ACB /* AdManager+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdManager+Networking.swift"; sourceTree = "<group>"; };
+		50B4997D2032B40A00879031 /* ASRAdNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdNode.swift; sourceTree = "<group>"; };
+		50B4997F2032C68D00879031 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
+		50B499822032CBD400879031 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		50DDCC32203418B20010C31A /* WeakObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakObject.swift; sourceTree = "<group>"; };
 		6785AAB00C90E3AAFF7D7090 /* Pods-AdSpecter-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdSpecter-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AdSpecter-iOS/Pods-AdSpecter-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		D84BA5195C083EB7E184E31B /* Pods-AdSpecter-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdSpecter-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AdSpecter-iOS/Pods-AdSpecter-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		F21C31702013FD2000C95C32 /* AdSpecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSpecter.swift; sourceTree = "<group>"; };
@@ -63,6 +73,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		50B499812032C6EA00879031 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				50B4997F2032C68D00879031 /* JSONCodable.swift */,
+				F2CE69BF202268560085D0DE /* ImpressionDataModel.swift */,
+				F29730AF2026DCE50084446D /* DeviceDataModel.swift */,
+				50DDCC32203418B20010C31A /* WeakObject.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		50B499842032CBDD00879031 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				50B499822032CBD400879031 /* Logging.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
 		F2CD0FC52013FC8300A0BD01 = {
 			isa = PBXGroup;
 			children = (
@@ -88,11 +117,13 @@
 				F2CD0FD32013FC8300A0BD01 /* Info.plist */,
 				F21C31702013FD2000C95C32 /* AdSpecter.swift */,
 				F21F59A42014021100070053 /* AdManager.swift */,
+				5080D5B62033F9C000604ACB /* AdManager+Networking.swift */,
 				F21F59A62014023300070053 /* APIClient.swift */,
-				F2CE69BF202268560085D0DE /* ImpressionDataModel.swift */,
-				F29730AF2026DCE50084446D /* DeviceDataModel.swift */,
+				50B499842032CBDD00879031 /* Logging */,
+				50B499812032C6EA00879031 /* Models */,
 				F29730B12026DDA20084446D /* DeveloperManager.swift */,
 				F26F61CE202A82B2009EB1C4 /* AppSessionDataModel.swift */,
+				50B4997D2032B40A00879031 /* ASRAdNode.swift */,
 			);
 			path = "AdSpecter-iOS";
 			sourceTree = "<group>";
@@ -216,11 +247,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F29730B02026DCE50084446D /* DeviceDataModel.swift in Sources */,
+				50B499832032CBD400879031 /* Logging.swift in Sources */,
+				50DDCC33203418B20010C31A /* WeakObject.swift in Sources */,
+				50B499802032C68D00879031 /* JSONCodable.swift in Sources */,
 				F2CE69C0202268560085D0DE /* ImpressionDataModel.swift in Sources */,
 				F21F59A52014021100070053 /* AdManager.swift in Sources */,
+				50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */,
 				F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */,
 				F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */,
 				F21F59A72014023300070053 /* APIClient.swift in Sources */,
+				5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */,
 				F26F61CF202A82B2009EB1C4 /* AppSessionDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,8 +392,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "AdSpecter-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adspecter.AdSpecter-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -383,7 +420,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "AdSpecter-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adspecter.AdSpecter-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

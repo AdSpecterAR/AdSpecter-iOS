@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 struct DeviceDataModel {
     let model = UIDevice.current.model
     let modelName = UIDevice.current.modelName
@@ -71,5 +70,4 @@ public extension UIDevice {
             default:                                        return identifier
         }
     }
-    
 }

@@ -10,19 +10,16 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-class APIClient {
-    
-    let adSpecterBaseURL : String = "http://10.0.0.158:3000"
-    
-    var adImageURL : String = ""
-    
-    func get(url: String) {
-        Alamofire.request("\(adSpecterBaseURL)\(url)", method: .get).responseJSON {
-            response in
+public typealias ASRErrorCallback = (Error?) -> Void
+public typealias ASRJSONDictionary = [String: Any]
 
-            return response
-        }
-    }
+enum APIClientError: Error {
+    case invalidURL
+    case invalidJSON
+    case invalidImpressionID
 }
 
-
+class APIClient {
+//    static let baseURL: String = "https://hidden-everglades-21450.herokuapp.com"
+    static let baseURL: String = "http://10.0.0.158:3000"
+}

@@ -10,7 +10,8 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-var sessionId : Int?
+// TODO: Add this to AdSpecter
+var sessionID: Int?
 
 class DeveloperManager {
     let developerAppID : String
@@ -21,7 +22,7 @@ class DeveloperManager {
         device = DeviceDataModel()
     }
     
-    func verifyAppID() {
+    func verifyAppID(completion: ASRErrorCallback? = nil) {
         let parameters : [String : Any] = [
             "client_api_key": developerAppID,
             "device" : [
@@ -33,30 +34,33 @@ class DeveloperManager {
                 "system_version": device.systemVersion
             ]
         ]
-        
+
+        let url: String = APIClient.baseURL + "/developer_app/authenticate"
         Alamofire.request(
-            "\(adSpecterBaseURL)\("/developer_app/authenticate")",
+            url,
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default
-            ).responseJSON { response in
-                print("***************************")
-                print("verifying client App ID \(response)")
-                
-                if let responseData = response.result.value {
-                    let json : JSON = JSON(responseData)
-                    
-                    sessionId = json["app_session"]["id"].intValue
-                    
-                    print("***************************")
-                    print("sessionId \(sessionId)")
-                    
-                    // callback here
-//                    
-//                    let adManager = AdManager()
-//                    
-//                    adManager.initializeAdNode()
-                }
+        ).responseJSON { response in
+            print("***************************")
+            print("verifying client App ID \(response)")
+
+            guard response.error == nil else {
+                completion?(response.error)
+                return
+            }
+
+            guard let responseJSON = response.result.value as? ASRJSONDictionary else {
+                completion?(APIClientError.invalidJSON)
+                return
+            }
+
+            guard let updatedSessionID = (responseJSON["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
+                completion?(APIClientError.invalidJSON)
+                return
+            }
+
+            sessionID = updatedSessionID
         }
     }
 }
