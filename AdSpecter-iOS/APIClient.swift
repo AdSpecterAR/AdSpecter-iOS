@@ -20,6 +20,8 @@ enum APIClientError: Error {
 }
 
 class APIClient {
-//    static let baseURL: String = "https://hidden-everglades-21450.herokuapp.com"
-    static let baseURL: String = "http://10.0.0.158:3000"
+    // rename to baseURLDevelopment
+    static let baseURL: String = "https://git.heroku.com/sanchez-dev.git"
+    static let baseURLStaging: String = "https://git.heroku.com/sanchez-staging.git"
+    static let baseURLProduction: String = "https://git.heroku.com/sanchez-production.git"
 }
