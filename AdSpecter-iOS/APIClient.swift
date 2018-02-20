@@ -21,7 +21,7 @@ enum APIClientError: Error {
 
 class APIClient {
     // rename to baseURLDevelopment
-    static let baseURL: String = "https://sanchez-dev.herokuapp.com/"
-    static let baseURLStaging: String = "https://sanchez-staging.herokuapp.com/"
-    static let baseURLProduction: String = "https://sanchez-production.herokuapp.com/"
+    static let baseURL: String = "https://sanchez-dev.herokuapp.com"
+    static let baseURLStaging: String = "https://sanchez-staging.herokuapp.com"
+    static let baseURLProduction: String = "https://sanchez-production.herokuapp.com"
 }
