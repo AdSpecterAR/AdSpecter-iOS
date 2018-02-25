@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 extension AdManager {
     func createImpression(completion: ASRErrorCallback? = nil) {
@@ -16,34 +15,26 @@ extension AdManager {
             parameters["app_session_id"] = sessionID
         }
 
-        print("***************************")
-        print("creating impressions data request")
-
-        Alamofire.request(
-            APIClient.baseURL + "/impressions",
+        APIClient.shared.makeRequest(
+            to: "impressions",
             method: .post,
-            parameters: parameters,
-            encoding: JSONEncoding.default
-        ).responseJSON { response in
-            print("***************************")
-            print("create impressions data response \(response)")
-            guard response.error == nil else {
-                completion?(response.error)
-                return
-            }
-            guard var responseJSON = response.value as? ASRJSONDictionary else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
+            parameters: parameters
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
 
-            responseJSON["served_at"] = self.dateFormatter.string(from: Date())
-            let impression = ImpressionDataModel(json: responseJSON)
-            impression?.hasAdBeenServed = true
-            if let updatedImpression = impression {
-                self.impression = updatedImpression
+            case let .success(json):
+                var copiedJSON = json
+                // TODO: This value should change
+                copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
+                let impression = ImpressionDataModel(json: copiedJSON)
+                impression?.hasAdBeenServed = true
+                if let impression = impression {
+                    self.impression = impression
+                }
+                completion?(nil)
             }
-
-            completion?(nil)
         }
     }
 
@@ -53,58 +44,51 @@ extension AdManager {
             return
         }
 
-        let url: String = APIClient.baseURL + "/impressions/" + String(impressionId)
-        Alamofire.request(url, method: .post, encoding: JSONEncoding.default).responseJSON {
-            response in
+        APIClient.shared.makeRequest(
+            to: "impressions/" + String(impressionId),
+            method: .post
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
 
-            print("***************************")
-            print("send impressions data response \(response)")
-            guard response.error == nil else {
-                completion?(response.error)
-                return
+            case .success:
+                completion?(nil)
             }
-
-            guard let _ = response.value else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            completion?(nil)
         }
     }
 
     func fetchNextAdImageURL(completion: ASRErrorCallback? = nil) {
-        let url: String = APIClient.baseURL + "/test"
-        Alamofire.request(url, method: .get).responseJSON {
-            response in
+        // TODO: Change this path
+        APIClient.shared.makeRequest(
+            to: "test",
+            method: .get
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
 
-            print("***************************")
-            print("get ad asset response \(response)")
-
-            guard response.error == nil else {
-                completion?(response.error)
-                return
-            }
-
-            guard let responseJSON = response.value as? ASRJSONDictionary, let imageURLString = responseJSON["image_url"] as? String else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            guard let imageURL = URL(string: imageURLString) else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            self.fetchImage(for: imageURL) { [weak self] image in
-                guard let image = image else {
+            case let .success(json):
+                guard let imageURLString = json["image_url"] as? String else {
                     completion?(APIClientError.invalidJSON)
                     return
                 }
 
-                self?.imageQueue.append(image)
-                self?.populatePendingNodes()
-                completion?(nil)
+                guard let imageURL = URL(string: imageURLString) else {
+                    completion?(APIClientError.invalidJSON)
+                    return
+                }
+
+                self.fetchImage(for: imageURL) { [weak self] image in
+                    guard let image = image else {
+                        completion?(APIClientError.invalidJSON)
+                        return
+                    }
+
+                    self?.imageQueue.append(image)
+                    self?.populatePendingNodes()
+                    completion?(nil)
+                }
             }
         }
     }

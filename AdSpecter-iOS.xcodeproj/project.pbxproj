@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E86CBFBF5C56B17C5634B46 /* Pods_AdSpecter_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8FBE809C0FB11C2F235DC8 /* Pods_AdSpecter_iOS.framework */; };
 		5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080D5B62033F9C000604ACB /* AdManager+Networking.swift */; };
 		50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997D2032B40A00879031 /* ASRAdNode.swift */; };
 		50B499802032C68D00879031 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997F2032C68D00879031 /* JSONCodable.swift */; };
@@ -24,14 +23,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3D8FBE809C0FB11C2F235DC8 /* Pods_AdSpecter_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdSpecter_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5080D5B62033F9C000604ACB /* AdManager+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdManager+Networking.swift"; sourceTree = "<group>"; };
 		50B4997D2032B40A00879031 /* ASRAdNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdNode.swift; sourceTree = "<group>"; };
 		50B4997F2032C68D00879031 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		50B499822032CBD400879031 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		50DDCC32203418B20010C31A /* WeakObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakObject.swift; sourceTree = "<group>"; };
-		6785AAB00C90E3AAFF7D7090 /* Pods-AdSpecter-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdSpecter-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AdSpecter-iOS/Pods-AdSpecter-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		D84BA5195C083EB7E184E31B /* Pods-AdSpecter-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdSpecter-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AdSpecter-iOS/Pods-AdSpecter-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		F21C31702013FD2000C95C32 /* AdSpecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSpecter.swift; sourceTree = "<group>"; };
 		F21F59A42014021100070053 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManager.swift; sourceTree = "<group>"; };
 		F21F59A62014023300070053 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -49,30 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E86CBFBF5C56B17C5634B46 /* Pods_AdSpecter_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03AA1539A22AADEFFC8BBC1B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D84BA5195C083EB7E184E31B /* Pods-AdSpecter-iOS.debug.xcconfig */,
-				6785AAB00C90E3AAFF7D7090 /* Pods-AdSpecter-iOS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		2FD3F72DA240F007EFE47BEB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3D8FBE809C0FB11C2F235DC8 /* Pods_AdSpecter_iOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		50B499812032C6EA00879031 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,8 +75,6 @@
 			children = (
 				F2CD0FD12013FC8300A0BD01 /* AdSpecter-iOS */,
 				F2CD0FD02013FC8300A0BD01 /* Products */,
-				03AA1539A22AADEFFC8BBC1B /* Pods */,
-				2FD3F72DA240F007EFE47BEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,12 +122,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2CD0FD72013FC8300A0BD01 /* Build configuration list for PBXNativeTarget "AdSpecter-iOS" */;
 			buildPhases = (
-				EEA5D2718A3D32164A836B26 /* [CP] Check Pods Manifest.lock */,
 				F2CD0FCA2013FC8300A0BD01 /* Sources */,
 				F2CD0FCB2013FC8300A0BD01 /* Frameworks */,
 				F2CD0FCC2013FC8300A0BD01 /* Headers */,
 				F2CD0FCD2013FC8300A0BD01 /* Resources */,
-				A42F54A0A0392A52EA8C9C85 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,42 +178,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A42F54A0A0392A52EA8C9C85 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AdSpecter-iOS/Pods-AdSpecter-iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EEA5D2718A3D32164A836B26 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AdSpecter-iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F2CD0FCA2013FC8300A0BD01 /* Sources */ = {
@@ -379,7 +317,6 @@
 		};
 		F2CD0FD82013FC8300A0BD01 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D84BA5195C083EB7E184E31B /* Pods-AdSpecter-iOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -407,7 +344,6 @@
 		};
 		F2CD0FD92013FC8300A0BD01 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6785AAB00C90E3AAFF7D7090 /* Pods-AdSpecter-iOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";

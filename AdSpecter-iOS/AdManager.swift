@@ -8,8 +8,6 @@
 
 import Foundation
 import ARKit
-import Alamofire
-import SwiftyJSON
 
 class AdManager {
     var impression : ImpressionDataModel

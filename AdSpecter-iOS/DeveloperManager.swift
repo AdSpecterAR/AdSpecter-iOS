@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Alamofire
-import SwiftyJSON
 
 // TODO: Add this to AdSpecter
 var sessionID: Int?
@@ -35,32 +33,26 @@ class DeveloperManager {
             ]
         ]
 
-        let url: String = APIClient.baseURL + "/developer_app/authenticate"
-        Alamofire.request(
-            url,
+        let path: String = APIClient.baseURL + "developer_app/authenticate"
+
+        APIClient.shared.makeRequest(
+            to: path,
             method: .post,
-            parameters: parameters,
-            encoding: JSONEncoding.default
-        ).responseJSON { response in
-            print("***************************")
-            print("verifying client App ID \(response)")
+            parameters: parameters
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
 
-            guard response.error == nil else {
-                completion?(response.error)
-                return
+            case let .success(json):
+                guard let updatedSessionID = (json["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
+                    completion?(APIClientError.invalidJSON)
+                    return
+                }
+
+                sessionID = updatedSessionID
+                completion?(nil)
             }
-
-            guard let responseJSON = response.result.value as? ASRJSONDictionary else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            guard let updatedSessionID = (responseJSON["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            sessionID = updatedSessionID
         }
     }
 }
