@@ -26,7 +26,7 @@ extension AdManager {
 
             case let .success(json):
                 var copiedJSON = json
-                // TODO: This value should change
+                // TODO: Date should be provided by server. Handshake if necessary.
                 copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
                 let impression = ImpressionDataModel(json: copiedJSON)
                 impression?.hasAdBeenServed = true
