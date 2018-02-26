@@ -9,7 +9,6 @@
 import Foundation
 
 extension AdManager {
-    
     func createImpression(for advertisement: ASRAdvertisement, completion: ASRErrorCallback? = nil) {
         // TODO: Update parameters
         var parameters: ASRJSONDictionary = [:]

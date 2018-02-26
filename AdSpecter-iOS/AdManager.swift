@@ -10,6 +10,7 @@ import Foundation
 
 class AdManager {
     var appSession: ASRAppSession
+    // TODO: Move this back to DeveloperManager
     var sessionID: String?
     var impression: ASRImpression?
 
