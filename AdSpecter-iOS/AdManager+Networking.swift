@@ -3,7 +3,7 @@
 //  AdSpecter-iOS
 //
 //  Created by Adam Proschek on 2/13/18.
-//  Copyright © 2018 John Li. All rights reserved.
+//  Copyright © 2018 AdSpecter. All rights reserved.
 //
 
 import Foundation
@@ -28,7 +28,7 @@ extension AdManager {
                 var copiedJSON = json
                 // TODO: Date should be provided by server. Handshake if necessary.
                 copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
-                let impression = ImpressionDataModel(json: copiedJSON)
+                let impression = ASRImpression(json: copiedJSON)
                 impression?.hasAdBeenServed = true
                 if let impression = impression {
                     self.impression = impression
@@ -61,7 +61,7 @@ extension AdManager {
     func fetchNextAdImageURL(completion: ASRErrorCallback? = nil) {
         // TODO: Change this path
         APIClient.shared.makeRequest(
-            to: "test",
+            to: "ad_units/default",
             method: .get
         ) { result in
             switch result {
@@ -69,12 +69,14 @@ extension AdManager {
                 completion?(error)
 
             case let .success(json):
-                guard let imageURLString = json["image_url"] as? String else {
+                guard let adJSON = json["ad_unit"] as? ASRJSONDictionary else {
                     completion?(APIClientError.invalidJSON)
                     return
                 }
 
-                guard let imageURL = URL(string: imageURLString) else {
+                let ad = ASRAdvertisement(json: adJSON)
+
+                guard let imageURL = ad?.imageURL else {
                     completion?(APIClientError.invalidJSON)
                     return
                 }

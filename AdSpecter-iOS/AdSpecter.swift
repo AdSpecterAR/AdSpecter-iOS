@@ -8,7 +8,6 @@
 
 import Foundation
 import SceneKit
-import ARKit
 
 public class AdSpecter {
     private var developerToken: String?

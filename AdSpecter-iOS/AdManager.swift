@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import ARKit
 
 class AdManager {
-    var impression : ImpressionDataModel
-    var appSession : AppSessionDataModel
+    var impression : ASRImpression
+    var appSession : ASRAppSession
 
     // TODO: Cache this on the appropriate thread object
     let dateFormatter = DateFormatter()
@@ -23,10 +22,11 @@ class AdManager {
 
     private var pendingNodes: [WeakObject<ASRAdNode>] = []
     var imageQueue: [UIImage] = []
+    var adsQueue: [ASRAdvertisement] = []
     
     init() {
-        impression = ImpressionDataModel()
-        appSession = AppSessionDataModel()
+        impression = ASRImpression()
+        appSession = ASRAppSession()
     }
 
     func setDeveloperToken(_ token: String) {

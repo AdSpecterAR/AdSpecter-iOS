@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5005C79820438670008B5D66 /* ASRAdvertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005C79720438670008B5D66 /* ASRAdvertisement.swift */; };
+		5005C79A20438973008B5D66 /* Thread+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005C79920438973008B5D66 /* Thread+DateFormatter.swift */; };
 		5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080D5B62033F9C000604ACB /* AdManager+Networking.swift */; };
 		50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997D2032B40A00879031 /* ASRAdNode.swift */; };
 		50B499802032C68D00879031 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997F2032C68D00879031 /* JSONCodable.swift */; };
@@ -15,14 +17,16 @@
 		F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C31702013FD2000C95C32 /* AdSpecter.swift */; };
 		F21F59A52014021100070053 /* AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F59A42014021100070053 /* AdManager.swift */; };
 		F21F59A72014023300070053 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21F59A62014023300070053 /* APIClient.swift */; };
-		F26F61CF202A82B2009EB1C4 /* AppSessionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F61CE202A82B2009EB1C4 /* AppSessionDataModel.swift */; };
+		F26F61CF202A82B2009EB1C4 /* ASRAppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F61CE202A82B2009EB1C4 /* ASRAppSession.swift */; };
 		F29730B02026DCE50084446D /* DeviceDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29730AF2026DCE50084446D /* DeviceDataModel.swift */; };
 		F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29730B12026DDA20084446D /* DeveloperManager.swift */; };
 		F2CD0FD42013FC8300A0BD01 /* AdSpecter_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F2CD0FD22013FC8300A0BD01 /* AdSpecter_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F2CE69C0202268560085D0DE /* ImpressionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CE69BF202268560085D0DE /* ImpressionDataModel.swift */; };
+		F2CE69C0202268560085D0DE /* ASRImpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CE69BF202268560085D0DE /* ASRImpression.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5005C79720438670008B5D66 /* ASRAdvertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdvertisement.swift; sourceTree = "<group>"; };
+		5005C79920438973008B5D66 /* Thread+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thread+DateFormatter.swift"; sourceTree = "<group>"; };
 		5080D5B62033F9C000604ACB /* AdManager+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdManager+Networking.swift"; sourceTree = "<group>"; };
 		50B4997D2032B40A00879031 /* ASRAdNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdNode.swift; sourceTree = "<group>"; };
 		50B4997F2032C68D00879031 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
@@ -31,13 +35,13 @@
 		F21C31702013FD2000C95C32 /* AdSpecter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdSpecter.swift; sourceTree = "<group>"; };
 		F21F59A42014021100070053 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManager.swift; sourceTree = "<group>"; };
 		F21F59A62014023300070053 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		F26F61CE202A82B2009EB1C4 /* AppSessionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionDataModel.swift; sourceTree = "<group>"; };
+		F26F61CE202A82B2009EB1C4 /* ASRAppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAppSession.swift; sourceTree = "<group>"; };
 		F29730AF2026DCE50084446D /* DeviceDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataModel.swift; sourceTree = "<group>"; };
 		F29730B12026DDA20084446D /* DeveloperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperManager.swift; sourceTree = "<group>"; };
 		F2CD0FCF2013FC8300A0BD01 /* AdSpecter_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdSpecter_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2CD0FD22013FC8300A0BD01 /* AdSpecter_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSpecter_iOS.h; sourceTree = "<group>"; };
 		F2CD0FD32013FC8300A0BD01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2CE69BF202268560085D0DE /* ImpressionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpressionDataModel.swift; sourceTree = "<group>"; };
+		F2CE69BF202268560085D0DE /* ASRImpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRImpression.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +59,12 @@
 			isa = PBXGroup;
 			children = (
 				50B4997F2032C68D00879031 /* JSONCodable.swift */,
-				F2CE69BF202268560085D0DE /* ImpressionDataModel.swift */,
+				F2CE69BF202268560085D0DE /* ASRImpression.swift */,
 				F29730AF2026DCE50084446D /* DeviceDataModel.swift */,
 				50DDCC32203418B20010C31A /* WeakObject.swift */,
+				5005C79720438670008B5D66 /* ASRAdvertisement.swift */,
+				F26F61CE202A82B2009EB1C4 /* ASRAppSession.swift */,
+				5005C79920438973008B5D66 /* Thread+DateFormatter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -94,12 +101,11 @@
 				F21C31702013FD2000C95C32 /* AdSpecter.swift */,
 				F21F59A42014021100070053 /* AdManager.swift */,
 				5080D5B62033F9C000604ACB /* AdManager+Networking.swift */,
+				50B4997D2032B40A00879031 /* ASRAdNode.swift */,
 				F21F59A62014023300070053 /* APIClient.swift */,
 				50B499842032CBDD00879031 /* Logging */,
 				50B499812032C6EA00879031 /* Models */,
 				F29730B12026DDA20084446D /* DeveloperManager.swift */,
-				F26F61CE202A82B2009EB1C4 /* AppSessionDataModel.swift */,
-				50B4997D2032B40A00879031 /* ASRAdNode.swift */,
 			);
 			path = "AdSpecter-iOS";
 			sourceTree = "<group>";
@@ -185,17 +191,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				F29730B02026DCE50084446D /* DeviceDataModel.swift in Sources */,
+				5005C79820438670008B5D66 /* ASRAdvertisement.swift in Sources */,
 				50B499832032CBD400879031 /* Logging.swift in Sources */,
 				50DDCC33203418B20010C31A /* WeakObject.swift in Sources */,
+				5005C79A20438973008B5D66 /* Thread+DateFormatter.swift in Sources */,
 				50B499802032C68D00879031 /* JSONCodable.swift in Sources */,
-				F2CE69C0202268560085D0DE /* ImpressionDataModel.swift in Sources */,
+				F2CE69C0202268560085D0DE /* ASRImpression.swift in Sources */,
 				F21F59A52014021100070053 /* AdManager.swift in Sources */,
 				50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */,
 				F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */,
 				F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */,
 				F21F59A72014023300070053 /* APIClient.swift in Sources */,
 				5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */,
-				F26F61CF202A82B2009EB1C4 /* AppSessionDataModel.swift in Sources */,
+				F26F61CF202A82B2009EB1C4 /* ASRAppSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

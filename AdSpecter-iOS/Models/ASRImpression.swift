@@ -8,8 +8,8 @@
 
 import Foundation
 
-class ImpressionDataModel: JSONCodable {
-    var impressionID: Int?
+class ASRImpression: JSONCodable {
+    var impressionID: String?
     
     var hasAdBeenShown: Bool
     var hasAdBeenServed: Bool
@@ -18,9 +18,9 @@ class ImpressionDataModel: JSONCodable {
     var developerAppID: String
     var campaignID: String
     
-    var timeAdWasServed: String
-    var timeAdWasShown: String?
-    var timeAdWasClicked: String?
+    var servedAt: Date
+    var shownAt: Date?
+    var clickedAt: Date?
     
     init() {
         hasAdBeenShown = false
@@ -30,17 +30,20 @@ class ImpressionDataModel: JSONCodable {
         developerAppID = "1"        // change
         campaignID = "1"            // change
         
-        timeAdWasServed = ISO8601DateFormatter().string(from: Date())
+        servedAt = Date()
     }
     
     required init?(json: ASRJSONDictionary) {
-        guard let timeAdWasServed = json["served_at"] as? String else {
+        guard let rawServedAt = json["served_at"] as? String, let servedAt = Thread.current.iso8601Formatter.date(from: rawServedAt) else {
             return nil
         }
-        
+
+        self.servedAt = servedAt
         // TODO: Implement impression ID
-        impressionID = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int
-        self.timeAdWasServed = timeAdWasServed
+        if let rawImpression = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int {
+            impressionID = String(rawImpression)
+        }
+
         hasAdBeenServed = json["served"] as? Bool ?? false
         hasAdBeenShown = json["shown"] as? Bool ?? false
         hasAdBeenClicked = json["clicked"] as? Bool ?? false
@@ -48,9 +51,14 @@ class ImpressionDataModel: JSONCodable {
         // TODO: Change this
         developerAppID = json["developer_app_id"] as? String ?? "1"
         campaignID = json["campaign_id"] as? String ?? "1"
-        
-        timeAdWasShown = json["shown_at"] as? String
-        timeAdWasClicked = json["clicked_at"] as? String
+
+        if let rawShownAt = json["shown_at"] as? String {
+            shownAt = Thread.current.iso8601Formatter.date(from: rawShownAt)
+        }
+
+        if let rawClickedAt = json["clicked_at"] as? String {
+            clickedAt = Thread.current.iso8601Formatter.date(from: rawClickedAt)
+        }
     }
     
     func toJSON() -> ASRJSONDictionary {
@@ -64,10 +72,18 @@ class ImpressionDataModel: JSONCodable {
         json["clicked"] = hasAdBeenClicked
         json["developer_app_id"] = developerAppID
         json["campaign_id"] = campaignID
-        json["served_at"] = timeAdWasServed
-        json["shown_at"] = timeAdWasShown
+
+        json["served_at"] = Thread.current.iso8601Formatter.string(from: servedAt)
+
+        if let shownAt = shownAt {
+            json["shown_at"] = Thread.current.iso8601Formatter.string(from: shownAt)
+        }
+
         // TODO: Make sure we want to send this key
-        json["clicked_at"] = timeAdWasClicked
+        if let clickedAt = clickedAt {
+            json["clicked_at"] = Thread.current.iso8601Formatter.string(from: clickedAt)
+        }
+
         return json
     }
 }
