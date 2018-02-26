@@ -9,8 +9,11 @@
 import Foundation
 
 extension AdManager {
-    func createImpression(completion: ASRErrorCallback? = nil) {
-        var parameters = impression.toJSON()
+    
+    func createImpression(for advertisement: ASRAdvertisement, completion: ASRErrorCallback? = nil) {
+        // TODO: Update parameters
+        var parameters: ASRJSONDictionary = [:]
+        parameters["ad_id"] = advertisement.advertisementID
         if let sessionID = sessionID {
             parameters["app_session_id"] = sessionID
         }
@@ -30,29 +33,11 @@ extension AdManager {
                 copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
                 let impression = ASRImpression(json: copiedJSON)
                 impression?.hasAdBeenServed = true
+
+                // TODO: Probably shouldn't keep a reference to impression
                 if let impression = impression {
                     self.impression = impression
                 }
-                completion?(nil)
-            }
-        }
-    }
-
-    func sendImpressionData(completion: ASRErrorCallback? = nil) {
-        guard let impressionId = impression.impressionID else {
-            completion?(APIClientError.invalidImpressionID)
-            return
-        }
-
-        APIClient.shared.makeRequest(
-            to: "impressions/" + String(impressionId),
-            method: .post
-        ) { result in
-            switch result {
-            case let .failure(error):
-                completion?(error)
-
-            case .success:
                 completion?(nil)
             }
         }
@@ -74,9 +59,12 @@ extension AdManager {
                     return
                 }
 
-                let ad = ASRAdvertisement(json: adJSON)
+                guard let ad = ASRAdvertisement(json: adJSON) else {
+                    completion?(APIClientError.invalidJSON)
+                    return
+                }
 
-                guard let imageURL = ad?.imageURL else {
+                guard let imageURL = ad.imageURL else {
                     completion?(APIClientError.invalidJSON)
                     return
                 }
@@ -87,7 +75,7 @@ extension AdManager {
                         return
                     }
 
-                    self?.imageQueue.append(image)
+                    self?.adQueue.append((ad, image))
                     self?.populatePendingNodes()
                     completion?(nil)
                 }

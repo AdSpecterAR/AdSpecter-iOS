@@ -17,7 +17,7 @@ extension Thread {
         } else {
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            threadDictionary["iso8601Formatter"] = formatter
+            threadDictionary[type(of: self).identifier] = formatter
             return formatter
         }
     }

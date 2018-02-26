@@ -9,8 +9,9 @@
 import Foundation
 
 class AdManager {
-    var impression : ASRImpression
-    var appSession : ASRAppSession
+    var appSession: ASRAppSession
+    var sessionID: String?
+    var impression: ASRImpression?
 
     // TODO: Cache this on the appropriate thread object
     let dateFormatter = DateFormatter()
@@ -21,11 +22,9 @@ class AdManager {
     var imageFetchQueue = DispatchQueue(label: "com.adspecter.AdSpecter-iOS.imageQueue", qos: .userInteractive)
 
     private var pendingNodes: [WeakObject<ASRAdNode>] = []
-    var imageQueue: [UIImage] = []
-    var adsQueue: [ASRAdvertisement] = []
+    var adQueue: [(ad: ASRAdvertisement, image: UIImage)] = []
     
     init() {
-        impression = ASRImpression()
         appSession = ASRAppSession()
     }
 
@@ -37,13 +36,13 @@ class AdManager {
     func populatePendingNodes() {
         var nodesProcessed: Int = 0
         for node in pendingNodes {
-            guard let realNode = node.object, !imageQueue.isEmpty else {
+            guard let realNode = node.object, let nextAd = adQueue.first else {
                 return
             }
-            realNode.image = imageQueue.first
-            imageQueue = Array(imageQueue.dropFirst())
+            realNode.image = nextAd.image
+            adQueue = Array(adQueue.dropFirst())
             // TODO: Probably want better logic around this
-            createImpression()
+            createImpression(for: nextAd.ad)
             nodesProcessed += 1
         }
 

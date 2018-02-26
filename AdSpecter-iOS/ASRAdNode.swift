@@ -89,6 +89,7 @@ public class ASRAdNode: SCNNode {
             return
         }
 
+        // TODO: Make API request to track click
         delegate.adNode(self, wasTappedIn: view)
     }
 }

@@ -8,10 +8,12 @@
 
 import Foundation
 
-// TODO: Add this to AdSpecter
-var sessionID: Int?
-
 class DeveloperManager {
+    enum Result {
+        case success(String)
+        case failure(Error)
+    }
+
     let developerAppID : String
     let device : DeviceDataModel
     
@@ -20,7 +22,7 @@ class DeveloperManager {
         device = DeviceDataModel()
     }
     
-    func verifyAppID(completion: ASRErrorCallback? = nil) {
+    func verifyAppID(completion: ((Result) -> Void)? = nil) {
         let parameters : [String : Any] = [
             "client_api_key": developerAppID,
             "device" : [
@@ -42,16 +44,15 @@ class DeveloperManager {
         ) { result in
             switch result {
             case let .failure(error):
-                completion?(error)
+                completion?(.failure(error))
 
             case let .success(json):
                 guard let updatedSessionID = (json["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
-                    completion?(APIClientError.invalidJSON)
+                    completion?(.failure(APIClientError.invalidJSON))
                     return
                 }
 
-                sessionID = updatedSessionID
-                completion?(nil)
+                completion?(.success(String(updatedSessionID)))
             }
         }
     }

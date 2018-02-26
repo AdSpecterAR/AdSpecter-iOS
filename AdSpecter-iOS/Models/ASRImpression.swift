@@ -9,7 +9,7 @@
 import Foundation
 
 class ASRImpression: JSONCodable {
-    var impressionID: String?
+    var impressionID: String
     
     var hasAdBeenShown: Bool
     var hasAdBeenServed: Bool
@@ -22,28 +22,17 @@ class ASRImpression: JSONCodable {
     var shownAt: Date?
     var clickedAt: Date?
     
-    init() {
-        hasAdBeenShown = false
-        hasAdBeenServed = false
-        hasAdBeenClicked = false
-        
-        developerAppID = "1"        // change
-        campaignID = "1"            // change
-        
-        servedAt = Date()
-    }
-    
     required init?(json: ASRJSONDictionary) {
         guard let rawServedAt = json["served_at"] as? String, let servedAt = Thread.current.iso8601Formatter.date(from: rawServedAt) else {
             return nil
         }
-
         self.servedAt = servedAt
-        // TODO: Implement impression ID
-        if let rawImpression = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int {
-            impressionID = String(rawImpression)
-        }
 
+        guard let rawImpressionID = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int else {
+            return nil
+        }
+        self.impressionID = String(rawImpressionID)
+        
         hasAdBeenServed = json["served"] as? Bool ?? false
         hasAdBeenShown = json["shown"] as? Bool ?? false
         hasAdBeenClicked = json["clicked"] as? Bool ?? false
@@ -63,10 +52,7 @@ class ASRImpression: JSONCodable {
     
     func toJSON() -> ASRJSONDictionary {
         var json: ASRJSONDictionary = [:]
-        
-        if let impressionID = impressionID {
-            json["impression"] = ["id": impressionID]
-        }
+        json["impression"] = ["id": Int(impressionID)]
         json["shown"] = hasAdBeenShown
         json["served"] = hasAdBeenServed
         json["clicked"] = hasAdBeenClicked
