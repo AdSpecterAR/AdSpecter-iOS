@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import ARKit
-import Alamofire
-import SwiftyJSON
 
 class AdManager {
-    var impression : ImpressionDataModel
-    var appSession : AppSessionDataModel
+    var appSession: ASRAppSession
+    // TODO: Move this back to DeveloperManager
+    var sessionID: String?
+    var impression: ASRImpression?
 
     // TODO: Cache this on the appropriate thread object
     let dateFormatter = DateFormatter()
@@ -24,11 +23,10 @@ class AdManager {
     var imageFetchQueue = DispatchQueue(label: "com.adspecter.AdSpecter-iOS.imageQueue", qos: .userInteractive)
 
     private var pendingNodes: [WeakObject<ASRAdNode>] = []
-    var imageQueue: [UIImage] = []
+    var adQueue: [(ad: ASRAdvertisement, image: UIImage)] = []
     
     init() {
-        impression = ImpressionDataModel()
-        appSession = AppSessionDataModel()
+        appSession = ASRAppSession()
     }
 
     func setDeveloperToken(_ token: String) {
@@ -39,13 +37,13 @@ class AdManager {
     func populatePendingNodes() {
         var nodesProcessed: Int = 0
         for node in pendingNodes {
-            guard let realNode = node.object, !imageQueue.isEmpty else {
+            guard let realNode = node.object, let nextAd = adQueue.first else {
                 return
             }
-            realNode.image = imageQueue.first
-            imageQueue = Array(imageQueue.dropFirst())
+            realNode.image = nextAd.image
+            adQueue = Array(adQueue.dropFirst())
             // TODO: Probably want better logic around this
-            createImpression()
+            createImpression(for: nextAd.ad)
             nodesProcessed += 1
         }
 

@@ -3,108 +3,81 @@
 //  AdSpecter-iOS
 //
 //  Created by Adam Proschek on 2/13/18.
-//  Copyright © 2018 John Li. All rights reserved.
+//  Copyright © 2018 AdSpecter. All rights reserved.
 //
 
 import Foundation
-import Alamofire
 
 extension AdManager {
-    func createImpression(completion: ASRErrorCallback? = nil) {
-        var parameters = impression.toJSON()
+    func createImpression(for advertisement: ASRAdvertisement, completion: ASRErrorCallback? = nil) {
+        // TODO: Update parameters
+        var parameters: ASRJSONDictionary = [:]
+        parameters["ad_id"] = advertisement.advertisementID
         if let sessionID = sessionID {
             parameters["app_session_id"] = sessionID
         }
 
-        print("***************************")
-        print("creating impressions data request")
-
-        Alamofire.request(
-            APIClient.baseURL + "/impressions",
+        APIClient.shared.makeRequest(
+            to: "impressions",
             method: .post,
-            parameters: parameters,
-            encoding: JSONEncoding.default
-        ).responseJSON { response in
-            print("***************************")
-            print("create impressions data response \(response)")
-            guard response.error == nil else {
-                completion?(response.error)
-                return
+            parameters: parameters
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
+
+            case let .success(json):
+                var copiedJSON = json
+                // TODO: Date should be provided by server. Handshake if necessary.
+                copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
+                let impression = ASRImpression(json: copiedJSON)
+                impression?.hasAdBeenServed = true
+
+                // TODO: Probably shouldn't keep a reference to impression
+                if let impression = impression {
+                    self.impression = impression
+                }
+                completion?(nil)
             }
-            guard var responseJSON = response.value as? ASRJSONDictionary else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            responseJSON["served_at"] = self.dateFormatter.string(from: Date())
-            let impression = ImpressionDataModel(json: responseJSON)
-            impression?.hasAdBeenServed = true
-            if let updatedImpression = impression {
-                self.impression = updatedImpression
-            }
-
-            completion?(nil)
-        }
-    }
-
-    func sendImpressionData(completion: ASRErrorCallback? = nil) {
-        guard let impressionId = impression.impressionID else {
-            completion?(APIClientError.invalidImpressionID)
-            return
-        }
-
-        let url: String = APIClient.baseURL + "/impressions/" + String(impressionId)
-        Alamofire.request(url, method: .post, encoding: JSONEncoding.default).responseJSON {
-            response in
-
-            print("***************************")
-            print("send impressions data response \(response)")
-            guard response.error == nil else {
-                completion?(response.error)
-                return
-            }
-
-            guard let _ = response.value else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            completion?(nil)
         }
     }
 
     func fetchNextAdImageURL(completion: ASRErrorCallback? = nil) {
-        let url: String = APIClient.baseURL + "/test"
-        Alamofire.request(url, method: .get).responseJSON {
-            response in
+        // TODO: Change this path
+        APIClient.shared.makeRequest(
+            to: "ad_units/default",
+            method: .get
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
 
-            print("***************************")
-            print("get ad asset response \(response)")
-
-            guard response.error == nil else {
-                completion?(response.error)
-                return
-            }
-
-            guard let responseJSON = response.value as? ASRJSONDictionary, let imageURLString = responseJSON["image_url"] as? String else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            guard let imageURL = URL(string: imageURLString) else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            self.fetchImage(for: imageURL) { [weak self] image in
-                guard let image = image else {
+            case let .success(json):
+                guard let adJSON = json["ad_unit"] as? ASRJSONDictionary else {
                     completion?(APIClientError.invalidJSON)
                     return
                 }
 
-                self?.imageQueue.append(image)
-                self?.populatePendingNodes()
-                completion?(nil)
+                guard let ad = ASRAdvertisement(json: adJSON) else {
+                    completion?(APIClientError.invalidJSON)
+                    return
+                }
+
+                guard let imageURL = ad.imageURL else {
+                    completion?(APIClientError.invalidJSON)
+                    return
+                }
+
+                self.fetchImage(for: imageURL) { [weak self] image in
+                    guard let image = image else {
+                        completion?(APIClientError.invalidJSON)
+                        return
+                    }
+
+                    self?.adQueue.append((ad, image))
+                    self?.populatePendingNodes()
+                    completion?(nil)
+                }
             }
         }
     }

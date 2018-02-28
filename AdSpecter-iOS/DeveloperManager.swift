@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import Alamofire
-import SwiftyJSON
-
-// TODO: Add this to AdSpecter
-var sessionID: Int?
 
 class DeveloperManager {
+    enum Result {
+        case success(String)
+        case failure(Error)
+    }
+
     let developerAppID : String
     let device : DeviceDataModel
     
@@ -22,7 +22,7 @@ class DeveloperManager {
         device = DeviceDataModel()
     }
     
-    func verifyAppID(completion: ASRErrorCallback? = nil) {
+    func verifyAppID(completion: ((Result) -> Void)? = nil) {
         let parameters : [String : Any] = [
             "client_api_key": developerAppID,
             "device" : [
@@ -35,32 +35,25 @@ class DeveloperManager {
             ]
         ]
 
-        let url: String = APIClient.baseURL + "/developer_app/authenticate"
-        Alamofire.request(
-            url,
+        let path: String = APIClient.baseURL + "developer_app/authenticate"
+
+        APIClient.shared.makeRequest(
+            to: path,
             method: .post,
-            parameters: parameters,
-            encoding: JSONEncoding.default
-        ).responseJSON { response in
-            print("***************************")
-            print("verifying client App ID \(response)")
+            parameters: parameters
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(.failure(error))
 
-            guard response.error == nil else {
-                completion?(response.error)
-                return
+            case let .success(json):
+                guard let updatedSessionID = (json["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
+                    completion?(.failure(APIClientError.invalidJSON))
+                    return
+                }
+
+                completion?(.success(String(updatedSessionID)))
             }
-
-            guard let responseJSON = response.result.value as? ASRJSONDictionary else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            guard let updatedSessionID = (responseJSON["app_session"] as? ASRJSONDictionary)?["id"] as? Int else {
-                completion?(APIClientError.invalidJSON)
-                return
-            }
-
-            sessionID = updatedSessionID
         }
     }
 }

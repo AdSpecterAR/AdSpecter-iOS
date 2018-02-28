@@ -8,7 +8,6 @@
 
 import Foundation
 import SceneKit
-import ARKit
 
 public class AdSpecter {
     private var developerToken: String?
@@ -20,7 +19,15 @@ public class AdSpecter {
 
     public func setDeveloperKey(_ appID: String) {
         let developerManager = DeveloperManager(appID: appID)
-        developerManager.verifyAppID()
+        developerManager.verifyAppID() { result in
+            switch result {
+            case .failure:
+                break
+
+            case let .success(sessionID):
+                self.adManager.sessionID = sessionID
+            }
+        }
         adManager.setDeveloperToken(appID)
     }
 }
