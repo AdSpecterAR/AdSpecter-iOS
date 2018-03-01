@@ -24,8 +24,10 @@ public class ASRAdNode: SCNNode {
         }
     }
 
+    private let aspectRatio: CGFloat = 4.0 / 3.0
+
     private let plane: SCNPlane = {
-        let node = SCNPlane(width: 0.4, height: 0.3)
+        let node = SCNPlane()
         return node
     }()
     
@@ -47,11 +49,39 @@ public class ASRAdNode: SCNNode {
             geometry = plane
         }
     }
-    
+
+    public var maxSizeDimensions: CGSize {
+        didSet {
+            let width = maxSizeDimensions.width
+            let height = maxSizeDimensions.height
+            guard maxSizeDimensions.height > 0 else {
+                plane.width = width
+                plane.height = (3 * width) / 4
+                return
+            }
+
+            let aspectRatio = width / height
+            if aspectRatio >= self.aspectRatio {
+                // Too wide
+                plane.width = (4 * height) / 3
+                plane.height = height
+            } else {
+                // Too tall
+                plane.width = width
+                plane.height = (3 * width) / 4
+            }
+        }
+    }
+
     public override init() {
+        maxSizeDimensions = .zero
         super.init()
         AdSpecter.shared.adManager.populate(node: self)
-        transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+    }
+
+    public convenience init(maxSizeDimensions: CGSize) {
+        self.init()
+        self.maxSizeDimensions = maxSizeDimensions
     }
     
     public required init?(coder aDecoder: NSCoder) {

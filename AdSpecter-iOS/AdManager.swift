@@ -41,7 +41,10 @@ class AdManager {
                 return
             }
             realNode.image = nextAd.image
-            adQueue = Array(adQueue.dropFirst())
+            if adQueue.count > 1 {
+                adQueue = Array(adQueue.dropFirst())
+            }
+
             // TODO: Probably want better logic around this
             createImpression(for: nextAd.ad)
             nodesProcessed += 1
