@@ -6,7 +6,7 @@
 //  Copyright © 2018 AdSpecter. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension Thread {
     static let identifier: String = UIApplication.shared.uniqueIdentifier(with: "iso8601Formatter")

@@ -6,7 +6,7 @@
 //  Copyright © 2018 AdSpecter. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension AdManager {
     func createImpression(for advertisement: ASRAdvertisement, completion: ASRErrorCallback? = nil) {
