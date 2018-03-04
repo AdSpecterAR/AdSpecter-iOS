@@ -20,7 +20,6 @@
 		F26F61CF202A82B2009EB1C4 /* ASRAppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F61CE202A82B2009EB1C4 /* ASRAppSession.swift */; };
 		F29730B02026DCE50084446D /* DeviceDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29730AF2026DCE50084446D /* DeviceDataModel.swift */; };
 		F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29730B12026DDA20084446D /* DeveloperManager.swift */; };
-		F2CD0FD42013FC8300A0BD01 /* AdSpecter_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F2CD0FD22013FC8300A0BD01 /* AdSpecter_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2CE69C0202268560085D0DE /* ASRImpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CE69BF202268560085D0DE /* ASRImpression.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +38,6 @@
 		F29730AF2026DCE50084446D /* DeviceDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDataModel.swift; sourceTree = "<group>"; };
 		F29730B12026DDA20084446D /* DeveloperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperManager.swift; sourceTree = "<group>"; };
 		F2CD0FCF2013FC8300A0BD01 /* AdSpecter_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdSpecter_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2CD0FD22013FC8300A0BD01 /* AdSpecter_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdSpecter_iOS.h; sourceTree = "<group>"; };
 		F2CD0FD32013FC8300A0BD01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2CE69BF202268560085D0DE /* ASRImpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRImpression.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +94,6 @@
 		F2CD0FD12013FC8300A0BD01 /* AdSpecter-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				F2CD0FD22013FC8300A0BD01 /* AdSpecter_iOS.h */,
 				F2CD0FD32013FC8300A0BD01 /* Info.plist */,
 				F21C31702013FD2000C95C32 /* AdSpecter.swift */,
 				F21F59A42014021100070053 /* AdManager.swift */,
@@ -117,7 +114,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2CD0FD42013FC8300A0BD01 /* AdSpecter_iOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,16 +333,17 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "AdSpecter-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adspecter.AdSpecter-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
 			};
 			name = Debug;
 		};
@@ -364,14 +361,15 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "AdSpecter-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adspecter.AdSpecter-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64";
 			};
 			name = Release;
 		};

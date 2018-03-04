@@ -6,7 +6,7 @@
 //  Copyright © 2018 AdSpecter. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class AdManager {
     var appSession: ASRAppSession
