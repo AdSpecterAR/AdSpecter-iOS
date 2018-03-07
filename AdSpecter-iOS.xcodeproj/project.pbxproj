@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5005C79820438670008B5D66 /* ASRAdvertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005C79720438670008B5D66 /* ASRAdvertisement.swift */; };
 		5005C79A20438973008B5D66 /* Thread+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005C79920438973008B5D66 /* Thread+DateFormatter.swift */; };
+		50224BF7204F95F700121C00 /* UnityBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 50224BF5204F95F700121C00 /* UnityBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50224BF8204F95F700121C00 /* UnityBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50224BF6204F95F700121C00 /* UnityBridge.mm */; };
 		5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080D5B62033F9C000604ACB /* AdManager+Networking.swift */; };
 		50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997D2032B40A00879031 /* ASRAdNode.swift */; };
 		50B499802032C68D00879031 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997F2032C68D00879031 /* JSONCodable.swift */; };
@@ -26,6 +28,8 @@
 /* Begin PBXFileReference section */
 		5005C79720438670008B5D66 /* ASRAdvertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdvertisement.swift; sourceTree = "<group>"; };
 		5005C79920438973008B5D66 /* Thread+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thread+DateFormatter.swift"; sourceTree = "<group>"; };
+		50224BF5204F95F700121C00 /* UnityBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnityBridge.h; sourceTree = "<group>"; };
+		50224BF6204F95F700121C00 /* UnityBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityBridge.mm; sourceTree = "<group>"; };
 		5080D5B62033F9C000604ACB /* AdManager+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdManager+Networking.swift"; sourceTree = "<group>"; };
 		50B4997D2032B40A00879031 /* ASRAdNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdNode.swift; sourceTree = "<group>"; };
 		50B4997F2032C68D00879031 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
@@ -53,6 +57,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50224BEA204F956F00121C00 /* Unity */ = {
+			isa = PBXGroup;
+			children = (
+				50224BF5204F95F700121C00 /* UnityBridge.h */,
+				50224BF6204F95F700121C00 /* UnityBridge.mm */,
+			);
+			path = Unity;
+			sourceTree = "<group>";
+		};
 		50B499812032C6EA00879031 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +107,7 @@
 		F2CD0FD12013FC8300A0BD01 /* AdSpecter-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				50224BEA204F956F00121C00 /* Unity */,
 				F2CD0FD32013FC8300A0BD01 /* Info.plist */,
 				F21C31702013FD2000C95C32 /* AdSpecter.swift */,
 				F21F59A42014021100070053 /* AdManager.swift */,
@@ -114,6 +128,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50224BF7204F95F700121C00 /* UnityBridge.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +207,7 @@
 				50DDCC33203418B20010C31A /* WeakObject.swift in Sources */,
 				5005C79A20438973008B5D66 /* Thread+DateFormatter.swift in Sources */,
 				50B499802032C68D00879031 /* JSONCodable.swift in Sources */,
+				50224BF8204F95F700121C00 /* UnityBridge.mm in Sources */,
 				F2CE69C0202268560085D0DE /* ASRImpression.swift in Sources */,
 				F21F59A52014021100070053 /* AdManager.swift in Sources */,
 				50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */,
@@ -255,7 +271,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -309,7 +325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

@@ -9,15 +9,18 @@
 import Foundation
 import SceneKit
 
-public class AdSpecter {
+public class AdSpecter: NSObject {
     private var developerToken: String?
     let adManager: AdManager = AdManager()
 
+    @objc
     public static let shared: AdSpecter = AdSpecter()
     
-    private init() { }
+    private override init() { }
 
+    @objc
     public func setDeveloperKey(_ appID: String) {
+        print("Setting developer ID to: \(appID)")
         let developerManager = DeveloperManager(appID: appID)
         developerManager.verifyAppID() { result in
             switch result {
