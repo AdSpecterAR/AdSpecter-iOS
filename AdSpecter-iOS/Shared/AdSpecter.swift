@@ -11,7 +11,9 @@ import SceneKit
 
 public class AdSpecter: NSObject {
     private var developerToken: String?
-    let adManager: AdManager = AdManager()
+
+    @objc
+    public let adManager: AdManager = AdManager()
 
     @objc
     public static let shared: AdSpecter = AdSpecter()

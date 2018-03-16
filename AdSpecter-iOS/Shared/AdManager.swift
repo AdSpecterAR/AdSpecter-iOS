@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AdManager {
+public class AdManager: NSObject {
     var appSession: ASRAppSession
     // TODO: Move this back to DeveloperManager
     var sessionID: String?
@@ -25,8 +25,9 @@ class AdManager {
     private var pendingNodes: [WeakObject<ASRAdNode>] = []
     var adQueue: [(ad: ASRAdvertisement, image: UIImage)] = []
     
-    init() {
+    override init() {
         appSession = ASRAppSession()
+        super.init()
     }
 
     func setDeveloperToken(_ token: String) {
@@ -57,5 +58,9 @@ class AdManager {
     func populate(node: ASRAdNode) {
         pendingNodes.append(WeakObject(node))
         populatePendingNodes()
+    }
+
+    func populate(loader: ASRAdLoader) {
+        // TODO: Implement this
     }
 }

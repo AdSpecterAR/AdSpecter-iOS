@@ -7,13 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ASRTypes.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+    typedef const void *ASRLoaderRef;
+
     void set_developer_key(const char *developerKey);
-    
+
+    void ASRAdWasTapped(ASRLoaderRef ref);
+
+    ASRLoaderRef ASRCreateLoader(float width, float height);
+
+    void ASRSetDeveloperKey(const char *developerKey);
+
 #ifdef __cplusplus
 }
 #endif
