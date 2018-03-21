@@ -11,6 +11,8 @@
 		5005C79A20438973008B5D66 /* Thread+DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005C79920438973008B5D66 /* Thread+DateFormatter.swift */; };
 		50224BF7204F95F700121C00 /* UnityBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 50224BF5204F95F700121C00 /* UnityBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50224BF8204F95F700121C00 /* UnityBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 50224BF6204F95F700121C00 /* UnityBridge.mm */; };
+		5024403220621E6A00E9EAF4 /* ASRUnityAdLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5024403020621E6A00E9EAF4 /* ASRUnityAdLoader.h */; };
+		5024403320621E6A00E9EAF4 /* ASRUnityAdLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5024403120621E6A00E9EAF4 /* ASRUnityAdLoader.m */; };
 		502BC5BF205790330003306F /* ASRTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 502BC5BE205790330003306F /* ASRTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		502BC5C1205790A50003306F /* ASRBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 502BC5C0205790A50003306F /* ASRBridge.m */; };
 		502BC5C3205792000003306F /* ASRAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502BC5C2205792000003306F /* ASRAdLoader.swift */; };
@@ -33,6 +35,8 @@
 		5005C79920438973008B5D66 /* Thread+DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thread+DateFormatter.swift"; sourceTree = "<group>"; };
 		50224BF5204F95F700121C00 /* UnityBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnityBridge.h; sourceTree = "<group>"; };
 		50224BF6204F95F700121C00 /* UnityBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityBridge.mm; sourceTree = "<group>"; };
+		5024403020621E6A00E9EAF4 /* ASRUnityAdLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASRUnityAdLoader.h; sourceTree = "<group>"; };
+		5024403120621E6A00E9EAF4 /* ASRUnityAdLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASRUnityAdLoader.m; sourceTree = "<group>"; };
 		502BC5BE205790330003306F /* ASRTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASRTypes.h; sourceTree = "<group>"; };
 		502BC5C0205790A50003306F /* ASRBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASRBridge.m; sourceTree = "<group>"; };
 		502BC5C2205792000003306F /* ASRAdLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdLoader.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 				50224BF6204F95F700121C00 /* UnityBridge.mm */,
 				502BC5BE205790330003306F /* ASRTypes.h */,
 				502BC5C0205790A50003306F /* ASRBridge.m */,
+				5024403020621E6A00E9EAF4 /* ASRUnityAdLoader.h */,
+				5024403120621E6A00E9EAF4 /* ASRUnityAdLoader.m */,
 			);
 			path = Unity;
 			sourceTree = "<group>";
@@ -155,6 +161,7 @@
 			files = (
 				50224BF7204F95F700121C00 /* UnityBridge.h in Headers */,
 				502BC5BF205790330003306F /* ASRTypes.h in Headers */,
+				5024403220621E6A00E9EAF4 /* ASRUnityAdLoader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +248,7 @@
 				50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */,
 				F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */,
 				F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */,
+				5024403320621E6A00E9EAF4 /* ASRUnityAdLoader.m in Sources */,
 				F21F59A72014023300070053 /* APIClient.swift in Sources */,
 				5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */,
 				F26F61CF202A82B2009EB1C4 /* ASRAppSession.swift in Sources */,

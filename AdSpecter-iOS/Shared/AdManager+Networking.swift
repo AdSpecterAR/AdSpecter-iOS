@@ -75,7 +75,7 @@ extension AdManager {
                     }
 
                     self?.adQueue.append((ad, image))
-                    self?.populatePendingNodes()
+                    self?.populatePendingLoaders()
                     completion?(nil)
                 }
             }

@@ -22,7 +22,7 @@ public class AdManager: NSObject {
 
     var imageFetchQueue = DispatchQueue(label: "com.adspecter.AdSpecter-iOS.imageQueue", qos: .userInteractive)
 
-    private var pendingNodes: [WeakObject<ASRAdNode>] = []
+    private var pendingLoaders: [WeakObject<ASRAdLoader>] = []
     var adQueue: [(ad: ASRAdvertisement, image: UIImage)] = []
     
     override init() {
@@ -35,32 +35,28 @@ public class AdManager: NSObject {
         fetchNextAdImageURL()
     }
 
-    func populatePendingNodes() {
-        var nodesProcessed: Int = 0
-        for node in pendingNodes {
-            guard let realNode = node.object, let nextAd = adQueue.first else {
+    func populatePendingLoaders() {
+        var loadersProcessed: Int = 0
+        for loader in pendingLoaders {
+            guard let realLoader = loader.object, let nextAd = adQueue.first else {
                 return
             }
-            realNode.image = nextAd.image
+            realLoader.image = nextAd.image
             if adQueue.count > 1 {
                 adQueue = Array(adQueue.dropFirst())
             }
 
             // TODO: Probably want better logic around this
             createImpression(for: nextAd.ad)
-            nodesProcessed += 1
+            loadersProcessed += 1
         }
 
-        pendingNodes = Array(pendingNodes.dropFirst(nodesProcessed))
+        pendingLoaders = Array(pendingLoaders.dropFirst(loadersProcessed))
         // TODO: Handle impression API calls
     }
 
-    func populate(node: ASRAdNode) {
-        pendingNodes.append(WeakObject(node))
-        populatePendingNodes()
-    }
-
     func populate(loader: ASRAdLoader) {
-        // TODO: Implement this
+        pendingLoaders.append(WeakObject(loader))
+        populatePendingLoaders()
     }
 }

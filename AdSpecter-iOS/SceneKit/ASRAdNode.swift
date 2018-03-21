@@ -9,20 +9,11 @@
 import UIKit
 import SceneKit
 
-public protocol ASRAdNodeDelegate: class {
-    func adNode(_ node: ASRAdNode, wasTappedIn sceneView: SCNView)
-}
-
 public class ASRAdNode: SCNNode {
-    private class WrappedDelegate: NSObject {
-        weak var delegate: ASRAdNodeDelegate?
-        weak var view: SCNView?
-
-        init(delegate: ASRAdNodeDelegate, view: SCNView) {
-            self.delegate = delegate
-            self.view = view
-        }
-    }
+    private lazy var adLoader: ASRAdLoader = {
+        let loader = ASRAdLoader(delegate: self)
+        return loader
+    }()
 
     private let aspectRatio: CGFloat = 4.0 / 3.0
 
@@ -40,7 +31,16 @@ public class ASRAdNode: SCNNode {
         return UITapGestureRecognizer(target: self, action: #selector(sceneWasTapped))
     }()
 
-    private var wrappedDelegate: WrappedDelegate?
+    public weak var superview: SCNView? {
+        didSet {
+            guard let superview = superview, superview != oldValue else {
+                return
+            }
+            DispatchQueue.main.async {
+                superview.addGestureRecognizer(self.tapRecognizer)
+            }
+        }
+    }
 
     var image: UIImage? {
         didSet {
@@ -76,7 +76,7 @@ public class ASRAdNode: SCNNode {
     public override init() {
         maxSizeDimensions = .zero
         super.init()
-        AdSpecter.shared.adManager.populate(node: self)
+        _ = adLoader
     }
 
     public convenience init(maxSizeDimensions: CGSize) {
@@ -88,38 +88,31 @@ public class ASRAdNode: SCNNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func setDelegate(_ delegate: ASRAdNodeDelegate?, in view: SCNView) {
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async {
-                self.setDelegate(delegate, in: view)
-            }
-            return
-        }
-        guard let delegate = delegate else {
-            self.wrappedDelegate = nil
-            return
-        }
-        self.wrappedDelegate = WrappedDelegate(delegate: delegate, view: view)
-        view.addGestureRecognizer(tapRecognizer)
-    }
-
     @objc
     private func sceneWasTapped(sender: UITapGestureRecognizer) {
         guard sender == tapRecognizer else {
             return
         }
-        guard let delegate = wrappedDelegate?.delegate, let view = wrappedDelegate?.view else {
+
+        guard let superview = superview else {
             return
         }
 
-        let tapLocation = sender.location(in: view)
-        let hits = view.hitTest(tapLocation, options: [.ignoreHiddenNodes: NSNumber(value: true)])
+        let tapLocation = sender.location(in: superview)
+        let hits = superview.hitTest(tapLocation, options: [.ignoreHiddenNodes: NSNumber(value: true)])
         let wasTapped = hits.contains(where: { $0.node == self })
         guard wasTapped else {
             return
         }
 
         // TODO: Make API request to track click
-        delegate.adNode(self, wasTappedIn: view)
+        print("AD WAS TAPPED")
+        adLoader.reportTap()
+    }
+}
+
+extension ASRAdNode: ASRAdLoaderDelegate {
+    public func adLoader(_ loader: ASRAdLoader, didLoad image: UIImage) {
+        self.image = image
     }
 }
