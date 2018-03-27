@@ -12,16 +12,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-    typedef const void *ASRLoaderRef;
-
-    void set_developer_key(const char *developerKey);
-
-    void ASRAdWasTapped(ASRLoaderRef ref);
-
-    ASRLoaderRef ASRCreateLoader(float width, float height);
+    typedef const void *ASRUnityAdLoaderRef;
+    typedef const void (*ASRAdLoaderImageLoadedHandler) (ASRUnityAdLoaderRef ref, const char *data);
 
     void ASRSetDeveloperKey(const char *developerKey);
+
+    ASRUnityAdLoaderRef ASRCreateLoader(ASRAdLoaderImageLoadedHandler handler);
+
+    void ASRAdWasTapped(ASRUnityAdLoaderRef ref);
+    void ASRSetAdLoaderImageLoadedHandler(ASRUnityAdLoaderRef ref, ASRAdLoaderImageLoadedHandler handler);
 
 #ifdef __cplusplus
 }

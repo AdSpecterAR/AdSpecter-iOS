@@ -11,26 +11,26 @@
 #import <SceneKit/SceneKit.h>
 #import "ASRTypes.h"
 #import <AdSpecter_iOS/AdSpecter_iOS-Swift.h>
-
-void set_developer_key(const char *developerKey) {
-    NSLog(@"ORIGINAL SET DEVELOPER KEY: %@", [NSString stringWithUTF8String:developerKey]);
-    [[AdSpecter shared] setDeveloperKey:[NSString stringWithUTF8String:developerKey]];
-}
-
-ASRLoaderRef ASRCreateLoader(float width, float height) {
-    NSLog(@"\n\nAd was created\n");
-    ASRAdLoader *loader = [[ASRAdLoader alloc] init];
-    CGSize size = CGSizeMake(width, height);
-    loader.maxSizeDimensions = size;
-    return (__bridge ASRLoaderRef)loader;
-}
-
-void ASRAdWasTapped(ASRLoaderRef ref) {
-    NSLog(@"\n\nAd was tapped!\n");
-}
+#import "ASRUnityAdLoader.h"
 
 void ASRSetDeveloperKey(const char *key) {
     NSString *developerKey = [NSString stringWithUTF8String:key];
     NSLog(@"Printing developer key: %@", developerKey);
     [[AdSpecter shared] setDeveloperKey:developerKey];
+}
+
+ASRUnityAdLoaderRef ASRCreateLoader(ASRAdLoaderImageLoadedHandler handler) {
+    NSLog(@"\n\nAd was created\n");
+    ASRUnityAdLoader *loader = [[ASRUnityAdLoader alloc] initWithImageLoadHandler:handler];
+    return (__bridge ASRUnityAdLoaderRef)loader;
+}
+
+void ASRAdWasTapped(ASRUnityAdLoaderRef ref) {
+    ASRUnityAdLoader *loader = (__bridge ASRUnityAdLoader *)ref;
+    [loader adWasTapped];
+}
+
+void ASRSetAdLoaderImageLoadedHandler(ASRUnityAdLoaderRef ref, ASRAdLoaderImageLoadedHandler handler) {
+    ASRUnityAdLoader *loader = (__bridge ASRUnityAdLoader *)ref;
+    loader.imageLoadedHandler = handler;
 }

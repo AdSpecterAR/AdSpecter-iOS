@@ -8,16 +8,32 @@
 
 import UIKit
 
+@objc
+public protocol ASRAdLoaderDelegate: class {
+    func adLoader(_ loader: ASRAdLoader, didLoad image: UIImage)
+}
+
 public class ASRAdLoader: NSObject {
-    private let aspectRatio: CGFloat = 4.0 / 3.0
-    var image: UIImage?
+    var image: UIImage? {
+        didSet {
+            guard let image = image, image != oldValue else {
+                return
+            }
+            delegate?.adLoader(self, didLoad: image)
+        }
+    }
 
     @objc
-    public var maxSizeDimensions: CGSize
+    public weak var delegate: ASRAdLoaderDelegate?
 
-    public override init() {
-        maxSizeDimensions = .zero
+    @objc
+    public init(delegate: ASRAdLoaderDelegate) {
         super.init()
+        self.delegate = delegate
         AdSpecter.shared.adManager.populate(loader: self)
+    }
+
+    public func reportTap() {
+        // TODO: Implement this
     }
 }
