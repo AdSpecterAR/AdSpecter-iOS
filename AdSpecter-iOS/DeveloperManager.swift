@@ -14,17 +14,17 @@ class DeveloperManager {
         case failure(Error)
     }
 
-    let developerAppID : String
-    let device : DeviceDataModel
+    let developerKey: String
+    let device: DeviceDataModel
     
-    init(appID : String) {
-        developerAppID = appID
+    init(developerKey: String) {
+        self.developerKey = developerKey
         device = DeviceDataModel()
     }
     
     func verifyAppID(completion: ((Result) -> Void)? = nil) {
-        let parameters : [String : Any] = [
-            "client_api_key": developerAppID,
+        let parameters: ASRJSONDictionary = [
+            "developer_key": developerKey,
             "device" : [
                 "device_model": device.model,
                 "localized_model": device.localizedModel,
@@ -35,11 +35,11 @@ class DeveloperManager {
             ]
         ]
 
-        let path: String = APIClient.baseURL + "developer_app/authenticate"
+        let path: String = "developer_app/authenticate"
 
         APIClient.shared.makeRequest(
             to: path,
-            method: .post,
+            method: .put,
             parameters: parameters
         ) { result in
             switch result {
@@ -52,7 +52,8 @@ class DeveloperManager {
                     return
                 }
 
-                completion?(.success(String(updatedSessionID)))
+                let sessionID = String(updatedSessionID)
+                completion?(.success(sessionID))
             }
         }
     }

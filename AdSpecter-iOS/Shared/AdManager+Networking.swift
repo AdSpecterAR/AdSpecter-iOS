@@ -8,42 +8,72 @@
 
 import UIKit
 
-extension AdManager {
-    func createImpression(for advertisement: ASRAdvertisement, completion: ASRErrorCallback? = nil) {
-        // TODO: Update parameters
-        var parameters: ASRJSONDictionary = [:]
-        parameters["ad_id"] = advertisement.advertisementID
-        if let sessionID = sessionID {
-            parameters["app_session_id"] = sessionID
-        }
-
+extension ASRImpression {
+    func markShown(completion: ASRErrorCallback? = nil) {
         APIClient.shared.makeRequest(
-            to: "impressions",
-            method: .post,
-            parameters: parameters
+            to: "impressions/\(objectID)/shown",
+            method: .put,
+            parameters: nil
         ) { result in
             switch result {
             case let .failure(error):
                 completion?(error)
 
-            case let .success(json):
-                var copiedJSON = json
-                // TODO: Date should be provided by server. Handshake if necessary.
-                copiedJSON["served_at"] = self.dateFormatter.string(from: Date())
-                let impression = ASRImpression(json: copiedJSON)
-                impression?.hasAdBeenServed = true
-
-                // TODO: Probably shouldn't keep a reference to impression
-                if let impression = impression {
-                    self.impression = impression
-                }
+            case .success:
                 completion?(nil)
             }
         }
     }
 
+    func reportTap(completion: ASRErrorCallback? = nil) {
+        APIClient.shared.makeRequest(
+            to: "impressions/\(objectID)/clicked",
+            method: .put,
+            parameters: nil
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(error)
+
+            case .success:
+                completion?(nil)
+            }
+        }
+    }
+}
+
+extension ASRAdvertisement {
+    func createImpression(completion: ASRResultCallback<ASRImpression>? = nil) {
+        // TODO: Update parameters
+        var parameters: ASRJSONDictionary = [:]
+        parameters["ad_unit_id"] = objectID
+
+        APIClient.shared.makeRequest(
+            to: "impressions",
+            method: .put,
+            parameters: parameters
+        ) { result in
+            switch result {
+            case let .failure(error):
+                completion?(.failure(error))
+
+            case let .success(json):
+                var copiedJSON = json
+                // TODO: Date should be provided by server. Handshake if necessary.
+                copiedJSON["served_at"] = Thread.current.iso8601Formatter.string(from: Date())
+                guard let impression = ASRImpression(json: copiedJSON) else {
+                    completion?(.failure(APIClientError.invalidJSON))
+                    return
+                }
+                impression.hasAdBeenServed = true
+                completion?(.success(impression))
+            }
+        }
+    }
+}
+
+extension AdManager {
     func fetchNextAdImageURL(completion: ASRErrorCallback? = nil) {
-        // TODO: Change this path
         APIClient.shared.makeRequest(
             to: "ad_units/default",
             method: .get
@@ -57,7 +87,6 @@ extension AdManager {
                     completion?(APIClientError.invalidJSON)
                     return
                 }
-
                 guard let ad = ASRAdvertisement(json: adJSON) else {
                     completion?(APIClientError.invalidJSON)
                     return
@@ -74,7 +103,8 @@ extension AdManager {
                         return
                     }
 
-                    self?.adQueue.append((ad, image))
+                    ad.image = image
+                    self?.adQueue.append(ad)
                     self?.populatePendingLoaders()
                     completion?(nil)
                 }

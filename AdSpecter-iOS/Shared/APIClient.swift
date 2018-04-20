@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias ASRErrorCallback = (Error?) -> Void
-public typealias ASRResultCallback = (ASRResult) -> Void
+public typealias ASRResultCallback<T> = (ASRResult<T>) -> Void
 public typealias ASRJSONDictionary = [String: Any]
 
 enum APIClientError: Error {
@@ -17,10 +17,11 @@ enum APIClientError: Error {
     case invalidJSON
     case invalidImpressionID
     case invalidParameters
+    case missingDeveloperKey
 }
 
-public enum ASRResult {
-    case success(ASRJSONDictionary)
+public enum ASRResult<T> {
+    case success(T)
     case failure(Error)
 }
 
@@ -37,6 +38,13 @@ enum HTTPMethod: String {
 }
 
 class APIClient {
+    struct URLRequestHolder {
+        let url: URL
+        let method: HTTPMethod
+        let parameters: ASRJSONDictionary?
+        let completion: ASRResultCallback<ASRJSONDictionary>?
+    }
+
     // rename to baseURLDevelopment
     private static let baseURLStaging: String = "https://sanchez-staging.herokuapp.com"
     private static let baseURLProduction: String = "https://sanchez-production.herokuapp.com"
@@ -51,31 +59,76 @@ class APIClient {
 
     static let shared: APIClient = APIClient()
 
+    var developerKey: String?
+    var appSessionID: String? {
+        didSet {
+            guard let appSessionID = appSessionID, appSessionID != oldValue else {
+                return
+            }
+            urlRequestsWaitingForAuthentication.forEach { holder in
+                makeRequest(holder)
+            }
+            urlRequestsWaitingForAuthentication.removeAll()
+        }
+    }
+
+    private var urlRequestsWaitingForAuthentication: [URLRequestHolder] = []
+
     private init() { }
 
     func makeRequest(
         to path: String,
         method: HTTPMethod = .get,
         parameters: ASRJSONDictionary? = nil,
-        completion: ASRResultCallback? = nil
+        completion: ASRResultCallback<ASRJSONDictionary>? = nil
     ) {
         guard let url = URL(string: APIClient.baseURL + "/" + path) else {
             completion?(.failure(APIClientError.invalidURLPath))
             return
         }
-        makeRequest(to: url, method: method, parameters: parameters, completion: completion)
+        makeRequest(
+            to: url,
+            method: method,
+            parameters: parameters,
+            completion: completion
+        )
     }
 
     private func makeRequest(
         to url: URL,
         method: HTTPMethod = .get,
         parameters: ASRJSONDictionary? = nil,
-        completion: ASRResultCallback? = nil
+        completion: ASRResultCallback<ASRJSONDictionary>? = nil
     ) {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        let holder = URLRequestHolder(
+            url: url,
+            method: method,
+            parameters: parameters,
+            completion: completion
+        )
+        if url.path.contains("authenticate") == true || url.path.contains("ad_units") || appSessionID != nil {
+            makeRequest(holder)
+        } else {
+            urlRequestsWaitingForAuthentication.append(holder)
+        }
+    }
 
-        if let parameters = parameters {
+    private func makeRequest(_ holder: URLRequestHolder) {
+        var request = URLRequest(url: holder.url)
+        request.httpMethod = holder.method.rawValue
+
+        var parameters: ASRJSONDictionary = holder.parameters ?? [:]
+        guard let developerKey = developerKey else {
+            holder.completion?(.failure(APIClientError.missingDeveloperKey))
+            return
+        }
+        parameters["developer_key"] = developerKey
+
+        if let sessionID = AdSpecter.shared.adManager.sessionID {
+            parameters["app_session_id"] = sessionID
+        }
+
+        if !parameters.isEmpty && holder.method != .get {
             do {
                 let data = try JSONSerialization.data(withJSONObject: parameters, options: [.prettyPrinted])
                 request.httpBody = data
@@ -84,17 +137,22 @@ class APIClient {
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 }
             } catch {
-                completion?(.failure(APIClientError.invalidParameters))
+                holder.completion?(.failure(APIClientError.invalidParameters))
             }
         }
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request, completionHandler: dataTaskCompletionHandler(completion: holder.completion))
+        task.resume()
+    }
+
+    private func dataTaskCompletionHandler(completion: ASRResultCallback<ASRJSONDictionary>? = nil) -> (Data?, URLResponse?, Error?) -> Void {
+        return { data, response, error in
             if let error = error {
                 completion?(.failure(error))
                 return
             }
 
-            guard let data = data else {
+            guard let data = data, !data.isEmpty else {
                 completion?(.failure(APIClientError.invalidJSON))
                 return
             }
@@ -109,6 +167,5 @@ class APIClient {
                 completion?(.failure(APIClientError.invalidJSON))
             }
         }
-        task.resume()
     }
 }

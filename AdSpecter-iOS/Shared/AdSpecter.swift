@@ -10,7 +10,6 @@ import Foundation
 import SceneKit
 
 public class AdSpecter: NSObject {
-    private var developerToken: String?
 
     @objc
     public let adManager: AdManager = AdManager()
@@ -21,9 +20,9 @@ public class AdSpecter: NSObject {
     private override init() { }
 
     @objc
-    public func setDeveloperKey(_ appID: String) {
-        print("Setting developer ID to: \(appID)")
-        let developerManager = DeveloperManager(appID: appID)
+    public func setDeveloperKey(_ key: String) {
+        adManager.setDeveloperKey(key)
+        let developerManager = DeveloperManager(developerKey: key)
         developerManager.verifyAppID() { result in
             switch result {
             case .failure:
@@ -31,8 +30,8 @@ public class AdSpecter: NSObject {
 
             case let .success(sessionID):
                 self.adManager.sessionID = sessionID
+                APIClient.shared.appSessionID = sessionID
             }
         }
-        adManager.setDeveloperToken(appID)
     }
 }
