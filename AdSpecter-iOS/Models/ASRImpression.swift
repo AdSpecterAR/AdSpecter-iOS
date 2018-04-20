@@ -8,38 +8,39 @@
 
 import Foundation
 
-class ASRImpression: JSONCodable {
-    var impressionID: String
+class ASRImpression: ASRObject, JSONEncodable {
+    let developerAppID: String
+    let campaignID: String
     
     var hasAdBeenShown: Bool
     var hasAdBeenServed: Bool
     var hasAdBeenClicked: Bool
-    
-    var developerAppID: String
-    var campaignID: String
     
     var servedAt: Date
     var shownAt: Date?
     var clickedAt: Date?
     
     required init?(json: ASRJSONDictionary) {
+        guard let rawImpressionID = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int else {
+            return nil
+        }
+
         guard let rawServedAt = json["served_at"] as? String, let servedAt = Thread.current.iso8601Formatter.date(from: rawServedAt) else {
             return nil
         }
         self.servedAt = servedAt
 
-        guard let rawImpressionID = (json["impression"] as? ASRJSONDictionary)?["id"] as? Int else {
-            return nil
-        }
-        self.impressionID = String(rawImpressionID)
-        
         hasAdBeenServed = json["served"] as? Bool ?? false
         hasAdBeenShown = json["shown"] as? Bool ?? false
         hasAdBeenClicked = json["clicked"] as? Bool ?? false
-        
+
         // TODO: Change this
-        developerAppID = json["developer_app_id"] as? String ?? "1"
+        developerAppID = json["developer_key"] as? String ?? "1"
         campaignID = json["campaign_id"] as? String ?? "1"
+
+        var jsonCopy = json
+        jsonCopy["id"] = "\(rawImpressionID)"
+        super.init(json: jsonCopy)
 
         if let rawShownAt = json["shown_at"] as? String {
             shownAt = Thread.current.iso8601Formatter.date(from: rawShownAt)
@@ -52,11 +53,11 @@ class ASRImpression: JSONCodable {
     
     func toJSON() -> ASRJSONDictionary {
         var json: ASRJSONDictionary = [:]
-        json["impression"] = ["id": Int(impressionID)]
+        json["impression"] = ["id": Int(objectID)]
         json["shown"] = hasAdBeenShown
         json["served"] = hasAdBeenServed
         json["clicked"] = hasAdBeenClicked
-        json["developer_app_id"] = developerAppID
+        json["developer_key"] = developerAppID
         json["campaign_id"] = campaignID
 
         json["served_at"] = Thread.current.iso8601Formatter.string(from: servedAt)

@@ -12,26 +12,22 @@ public class AdManager: NSObject {
     var appSession: ASRAppSession
     // TODO: Move this back to DeveloperManager
     var sessionID: String?
-    var impression: ASRImpression?
 
     // TODO: Cache this on the appropriate thread object
     let dateFormatter = DateFormatter()
 
-    // TODO: Set this in rest client to include in all request headers
-    private var developerToken: String?
-
     var imageFetchQueue = DispatchQueue(label: "com.adspecter.AdSpecter-iOS.imageQueue", qos: .userInteractive)
 
     private var pendingLoaders: [WeakObject<ASRAdLoader>] = []
-    var adQueue: [(ad: ASRAdvertisement, image: UIImage)] = []
+    var adQueue: [ASRAdvertisement] = []
     
     override init() {
         appSession = ASRAppSession()
         super.init()
     }
 
-    func setDeveloperToken(_ token: String) {
-        developerToken = token
+    func setDeveloperKey(_ key: String) {
+        APIClient.shared.developerKey = key
         fetchNextAdImageURL()
     }
 
@@ -41,18 +37,26 @@ public class AdManager: NSObject {
             guard let realLoader = loader.object, let nextAd = adQueue.first else {
                 return
             }
-            realLoader.image = nextAd.image
+            realLoader.advertisement = nextAd
             if adQueue.count > 1 {
                 adQueue = Array(adQueue.dropFirst())
             }
 
             // TODO: Probably want better logic around this
-            createImpression(for: nextAd.ad)
+            nextAd.createImpression { result in
+                switch result {
+                case .failure(_):
+                    break
+
+                case let .success(impression):
+                    nextAd.impression = impression
+                    impression.markShown()
+                }
+            }
             loadersProcessed += 1
         }
 
         pendingLoaders = Array(pendingLoaders.dropFirst(loadersProcessed))
-        // TODO: Handle impression API calls
     }
 
     func populate(loader: ASRAdLoader) {

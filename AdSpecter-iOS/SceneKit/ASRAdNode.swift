@@ -44,6 +44,9 @@ public class ASRAdNode: SCNNode {
 
     var image: UIImage? {
         didSet {
+            guard image != oldValue else {
+                return
+            }
             gridMaterial.diffuse.contents = image
             plane.materials = [gridMaterial]
             geometry = plane
@@ -104,15 +107,12 @@ public class ASRAdNode: SCNNode {
         guard wasTapped else {
             return
         }
-
-        // TODO: Make API request to track click
-        print("AD WAS TAPPED")
         adLoader.reportTap()
     }
 }
 
 extension ASRAdNode: ASRAdLoaderDelegate {
-    public func adLoader(_ loader: ASRAdLoader, didLoad image: UIImage) {
-        self.image = image
+    public func adLoaderDidUpdate(_ loader: ASRAdLoader) {
+        self.image = loader.advertisement?.image
     }
 }

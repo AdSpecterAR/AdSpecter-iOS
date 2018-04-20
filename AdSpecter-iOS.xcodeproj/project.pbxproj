@@ -17,6 +17,7 @@
 		502BC5C1205790A50003306F /* ASRBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 502BC5C0205790A50003306F /* ASRBridge.m */; };
 		502BC5C3205792000003306F /* ASRAdLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502BC5C2205792000003306F /* ASRAdLoader.swift */; };
 		5080D5B72033F9C000604ACB /* AdManager+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080D5B62033F9C000604ACB /* AdManager+Networking.swift */; };
+		50B11B71207DE4F500055D43 /* ASRObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B11B70207DE4F500055D43 /* ASRObject.swift */; };
 		50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997D2032B40A00879031 /* ASRAdNode.swift */; };
 		50B499802032C68D00879031 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B4997F2032C68D00879031 /* JSONCodable.swift */; };
 		50B499832032CBD400879031 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B499822032CBD400879031 /* Logging.swift */; };
@@ -41,6 +42,7 @@
 		502BC5C0205790A50003306F /* ASRBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASRBridge.m; sourceTree = "<group>"; };
 		502BC5C2205792000003306F /* ASRAdLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdLoader.swift; sourceTree = "<group>"; };
 		5080D5B62033F9C000604ACB /* AdManager+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdManager+Networking.swift"; sourceTree = "<group>"; };
+		50B11B70207DE4F500055D43 /* ASRObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRObject.swift; sourceTree = "<group>"; };
 		50B4997D2032B40A00879031 /* ASRAdNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASRAdNode.swift; sourceTree = "<group>"; };
 		50B4997F2032C68D00879031 /* JSONCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		50B499822032CBD400879031 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				5005C79720438670008B5D66 /* ASRAdvertisement.swift */,
 				F26F61CE202A82B2009EB1C4 /* ASRAppSession.swift */,
 				5005C79920438973008B5D66 /* Thread+DateFormatter.swift */,
+				50B11B70207DE4F500055D43 /* ASRObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				502BC5C3205792000003306F /* ASRAdLoader.swift in Sources */,
 				F21F59A52014021100070053 /* AdManager.swift in Sources */,
 				502BC5C1205790A50003306F /* ASRBridge.m in Sources */,
+				50B11B71207DE4F500055D43 /* ASRObject.swift in Sources */,
 				50B4997E2032B40A00879031 /* ASRAdNode.swift in Sources */,
 				F21C31712013FD2000C95C32 /* AdSpecter.swift in Sources */,
 				F29730B22026DDA20084446D /* DeveloperManager.swift in Sources */,

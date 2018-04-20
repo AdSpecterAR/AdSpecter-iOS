@@ -10,16 +10,32 @@ import UIKit
 
 @objc
 public protocol ASRAdLoaderDelegate: class {
-    func adLoader(_ loader: ASRAdLoader, didLoad image: UIImage)
+    func adLoaderDidUpdate(_ loader: ASRAdLoader)
 }
 
 public class ASRAdLoader: NSObject {
-    var image: UIImage? {
+    var advertisement: ASRAdvertisement? {
         didSet {
-            guard let image = image, image != oldValue else {
+            guard advertisement != oldValue else {
                 return
             }
-            delegate?.adLoader(self, didLoad: image)
+            if let oldValue = oldValue {
+                NotificationCenter.default.removeObserver(self, name: ASRAdvertisement.objectDidUpdateNotificationName(forObjectID: oldValue.objectID), object: nil)
+            }
+            guard let ad = advertisement else {
+                return
+            }
+
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(advertisementDidUpdate),
+                name: ASRAdvertisement.objectDidUpdateNotificationName(forObjectID: ad.objectID),
+                object: nil
+            )
+
+            if let _ = ad.image {
+                delegate?.adLoaderDidUpdate(self)
+            }
         }
     }
 
@@ -34,6 +50,11 @@ public class ASRAdLoader: NSObject {
     }
 
     public func reportTap() {
-        // TODO: Implement this
+        advertisement?.impression?.reportTap()
+    }
+
+    @objc
+    public func advertisementDidUpdate(notification: Notification) {
+        delegate?.adLoaderDidUpdate(self)
     }
 }

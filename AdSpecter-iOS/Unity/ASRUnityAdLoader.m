@@ -40,15 +40,8 @@
     NSLog(@"AD WAS TAPPED");
 }
 
-- (void)adLoader:(ASRAdLoader * _Nonnull)loader didLoad:(UIImage * _Nonnull)image {
-    NSLog(@"DID LOAD IMAGE");
-    if (self.imageLoadedHandler == nil || image == nil) {
-        return;
-    }
-
-    NSLog(@"HAS HANDLER AND IMAGE");
-    NSData *data = UIImageJPEGRepresentation(image, 1.0);
-    self.imageLoadedHandler((__bridge ASRUnityAdLoaderRef)self, [data bytes]);
+- (void)adLoaderDidUpdate:(ASRAdLoader *)loader {
+#warning Implement this
 }
 
 @end
